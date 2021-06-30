@@ -1,5 +1,5 @@
-DROP DATABASE IF EXISTS questions_answers;
--- CREATE DATABASE IF NOT EXISTS questions_answers;
+-- DROP DATABASE questions_answers;
+-- CREATE DATABASE questions_answers;
 
 DROP TABLE questions;
 CREATE TABLE IF NOT EXISTS questions (
@@ -33,19 +33,17 @@ CREATE TABLE IF NOT EXISTS answers_photos (
 );
 
 -- To seed database:
-COPY questions(id, product_id, body, date, username, email, reported, helpful)
+COPY questions(product_id, body, date, username, email, reported, helpful)
 FROM '/home/katie/hackreactor/SDC/data/questions.csv'
 DELIMITER ','
 CSV HEADER;
 
-COPY answers(id, question_id, body, date_written, answerer_name, answerer_email, reported, helpful)
+COPY answers(question_id, body, date_written, answerer_name, answerer_email, reported, helpful)
 FROM '/home/katie/hackreactor/SDC/data/answers.csv'
 DELIMITER ','
 CSV HEADER;
 
-COPY answers_photos(id, answer_id, url)
+COPY answers_photos(answer_id, url)
 FROM '/home/katie/hackreactor/SDC/data/answers_photos.csv'
 DELIMITER ','
 CSV HEADER;
--- /home/katie/hackreactor/SDC/data/answers.csv
--- /home/katie/hackreactor/SDC/data/answers.csv

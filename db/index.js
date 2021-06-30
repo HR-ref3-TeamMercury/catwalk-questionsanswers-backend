@@ -1,16 +1,9 @@
-const knex = require('knex');
-const knexfile = require('./knexfile');
+const pg = require('pg');
 
-const db = knex(knexfile.development);
-module.exports = db;
+const cs = 'postgres://postgres:password@localhost:5432/questions_answers';
 
-module.exports = knex({
-  client: 'postgres',
-  connection: {
-    host: 'localhost',
-    port: '5432',
-    user: 'postgres',
-    password: 'password',
-    database: 'postgres',
-  },
-});
+const client = new pg.Client(cs);
+
+client.connect();
+
+module.exports = client;

@@ -1,6 +1,41 @@
 {
   "dependencies": {
     "express": "^4.17.1",
+    "knex": "^0.95.6",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.7",
+    "pg": "^8.6.0",
+    "pg-promise": "^10.10.2",
     "postgres": "^1.0.2"
+  },
+  "name": "catwalk-questionsanswers-backend",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon routes/index.js",
+    "migrate": "knex migrate:latest",
+    "unmigrate": "knex migrate:rollback",
+    "seed": "knex seed:run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HR-ref3-TeamMercury/catwalk-questionsanswers-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HR-ref3-TeamMercury/catwalk-questionsanswers-backend/issues"
+  },
+  "homepage": "https://github.com/HR-ref3-TeamMercury/catwalk-questionsanswers-backend#readme",
+  "devDependencies": {
+    "eslint": "^7.29.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0"
   }
 }
