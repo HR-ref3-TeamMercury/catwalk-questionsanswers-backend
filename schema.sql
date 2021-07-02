@@ -47,3 +47,5 @@ COPY answers_photos(answer_id, url)
 FROM '/home/katie/hackreactor/SDC/data/answers_photos.csv'
 DELIMITER ','
 CSV HEADER;
+
+-- TODO:

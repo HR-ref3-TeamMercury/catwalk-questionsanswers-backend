@@ -2,10 +2,8 @@ const client = require('../index');
 
 module.exports = {
 
-  getAll: (callback) => {
-    const count = 5;
-    const productId = 36;
-    // TODO: WHERE LEFT OUTER JOIN answers ON (answers.question_id = questions.id)
+  getAll: (productId, count = 5, page = 1, callback) => {
+    // const count = 5;
     client.query(
       `SELECT
       q.id,
@@ -27,15 +25,14 @@ module.exports = {
       FROM questions q
       LEFT JOIN answers a ON q.id = a.question_id
       LEFT JOIN answers_photos ap ON a.id = ap.answer_id
-      WHERE product_id = ${productId}
-      limit ${count}`,
+      WHERE q.product_id = ${productId}`,
     )
       .then((res) => {
         const returnObj = {
           product_id: res.rows[0].product_id,
           results: res.rows
             .reduce((acc, item) => {
-              const existingQuestion = acc.find((q) => q.id === item.id);
+              const existingQuestion = acc.find((q) => q.question_id === item.id);
               const question = existingQuestion || {
                 question_id: item.id,
                 question_body: item.question_body,
@@ -45,8 +42,8 @@ module.exports = {
                 reported: item.reported,
                 answers: {},
               };
-              const existingAnswer = question.answers[item.answer_id.toString()];
               if (item.answer_id) {
+                const existingAnswer = question.answers[item.answer_id.toString()];
                 question.answers[item.answer_id.toString()] = existingAnswer || {
                   id: item.answer_id,
                   body: item.answer_body,
@@ -63,13 +60,14 @@ module.exports = {
                 return [...acc, question];
               }
               return acc;
-            }, []),
+            }, [])
+            .slice(count * (page - 1), (count * page)),
         };
         callback(null, returnObj);
       })
-      .catch((error) => callback(error))
-      .finally(() => client.end());
+      .catch((error) => callback(error));
   },
+
   create: (params, callback) => {
     client.query(
       `INSERT INTO questions
@@ -79,6 +77,14 @@ module.exports = {
       (err, res) => {
         callback(err, res);
       },
-    );
+    )
+      .catch((error) => callback(error));
+  },
+
+  helpful: (questionId, callback) => {
+    client.query(`UPDATE questions SET helpful = helpful + 1 WHERE id = ${questionId}`,
+      (err, res) => {
+        callback(err, res);
+      });
   },
 };
